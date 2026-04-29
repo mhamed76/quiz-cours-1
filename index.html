@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz FLE — Niveau A1 · Unité 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #F5F0E8;
+  --paper:    #FFFDF7;
+  --blue:     #1A4B8C;
+  --blue2:    #2563EB;
+  --yellow:   #F5A623;
+  --red:      #D63B3B;
+  --green:    #1A7A4A;
+  --purple:   #6B3FA0;
+  --ink:      #1C1C2E;
+  --muted:    #6B7280;
+  --border:   #E0D9CC;
+  --correct:  #D1FAE5;
+  --wrong:    #FEE2E2;
+  --correct-b:#059669;
+  --wrong-b:  #DC2626;
+  --radius:   14px;
+  --shadow:   0 4px 24px rgba(26,75,140,.10);
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(37,99,235,.06) 0%, transparent 50%),
+    radial-gradient(circle at 85% 75%, rgba(245,166,35,.08) 0%, transparent 50%);
+}
+
+/* ─── DECORATIVE LINES (notebook) ──────────────────────────── */
+body::before {
+  content: "";
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: repeating-linear-gradient(
+    transparent, transparent 27px, rgba(26,75,140,.04) 27px, rgba(26,75,140,.04) 28px
+  );
+  pointer-events: none; z-index: 0;
+}
+
+/* ─── WRAPPER ───────────────────────────────────────────────── */
+.wrapper { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+
+/* ─── HEADER ────────────────────────────────────────────────── */
+.site-header {
+  background: var(--blue);
+  border-radius: 20px;
+  padding: 2rem 2.5rem 1.8rem;
+  margin-bottom: 2rem;
+  position: relative; overflow: hidden;
+  box-shadow: 0 8px 40px rgba(26,75,140,.3);
+}
+.site-header::before {
+  content: "🇫🇷";
+  position: absolute; right: 1.8rem; top: 1.2rem;
+  font-size: 3rem; opacity: .25;
+}
+.site-header::after {
+  content: "";
+  position: absolute; bottom: -30px; left: -30px;
+  width: 140px; height: 140px; border-radius: 50%;
+  background: rgba(245,166,35,.15);
+}
+.site-header h1 {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  font-weight: 800; color: #fff; line-height: 1.1;
+  position: relative; z-index: 1;
+}
+.site-header p {
+  color: rgba(255,255,255,.75); font-size: .95rem;
+  margin-top: .5rem; position: relative; z-index: 1;
+}
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; position: relative; z-index: 1; }
+.badge {
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+  color: #fff; border-radius: 999px; padding: 4px 12px; font-size: .78rem; font-weight: 700;
+}
+
+/* ─── PROGRESS ──────────────────────────────────────────────── */
+.progress-card {
+  background: var(--paper); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.4rem;
+  margin-bottom: 1.5rem; box-shadow: var(--shadow);
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.progress-meta { font-size: .85rem; color: var(--muted); }
+.progress-meta strong { color: var(--ink); font-size: 1rem; }
+.progress-bar-wrap { flex: 1; min-width: 140px; }
+.progress-track { height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--blue2), var(--yellow)); border-radius: 99px; transition: width .5s ease; }
+.score-pill {
+  background: var(--blue); color: white;
+  border-radius: 999px; padding: 5px 16px; font-weight: 700; font-size: .9rem;
+  white-space: nowrap;
+}
+
+/* ─── CATEGORY BADGE ────────────────────────────────────────── */
+.cat-row { margin-bottom: .6rem; }
+.cat-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+  padding: 4px 12px; border-radius: 999px;
+}
+
+/* ─── QUESTION CARD ─────────────────────────────────────────── */
+.q-card {
+  background: var(--paper);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 1.6rem 1.8rem 1.4rem;
+  margin-bottom: 1.2rem;
+  box-shadow: var(--shadow);
+  transition: border-color .3s;
+  animation: slideUp .35s ease both;
+}
+@keyframes slideUp { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
+
+.q-number { font-size: .78rem; color: var(--muted); font-weight: 700; letter-spacing: .05em; margin-bottom: .5rem; }
+.q-text {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-weight: 700; color: var(--ink); line-height: 1.4;
+  margin-bottom: 1.2rem;
+}
+.q-hint { font-size: .82rem; color: var(--muted); font-style: italic; margin-top: -.6rem; margin-bottom: 1rem; }
+
+/* ─── OPTIONS ───────────────────────────────────────────────── */
+.options { display: grid; gap: 8px; }
+.options.grid2 { grid-template-columns: 1fr 1fr; }
+@media (max-width: 500px) { .options.grid2 { grid-template-columns: 1fr; } }
+
+.opt {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg); border: 2px solid var(--border);
+  border-radius: 10px; padding: 10px 14px;
+  cursor: pointer; transition: all .18s; font-size: .95rem;
+  font-family: 'Nunito', sans-serif; font-weight: 600;
+  text-align: left; width: 100%; color: var(--ink);
+}
+.opt:hover:not(:disabled) { border-color: var(--blue2); background: rgba(37,99,235,.05); transform: translateX(3px); }
+.opt .opt-letter {
+  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+  background: var(--border); color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .75rem; font-weight: 800; transition: all .18s;
+}
+.opt:hover:not(:disabled) .opt-letter { background: var(--blue2); color: white; }
+
+/* answered states */
+.opt.correct   { background: var(--correct); border-color: var(--correct-b); color: var(--green); }
+.opt.correct .opt-letter { background: var(--correct-b); color: white; }
+.opt.wrong     { background: var(--wrong); border-color: var(--wrong-b); color: var(--red); }
+.opt.wrong .opt-letter { background: var(--wrong-b); color: white; }
+.opt.reveal    { background: rgba(209,250,229,.6); border-color: var(--correct-b); color: var(--green); opacity: .85; }
+.opt.reveal .opt-letter { background: var(--correct-b); color: white; }
+.opt:disabled  { cursor: default; transform: none !important; }
+
+/* ─── FEEDBACK ──────────────────────────────────────────────── */
+.feedback {
+  margin-top: 1rem; border-radius: 10px; padding: 12px 14px;
+  font-size: .88rem; line-height: 1.55; display: none;
+  animation: fadeIn .3s ease;
+}
+@keyframes fadeIn { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform: translateY(0); } }
+.feedback.show { display: block; }
+.feedback.ok   { background: var(--correct); border: 1.5px solid var(--correct-b); color: #065F46; }
+.feedback.ko   { background: var(--wrong);   border: 1.5px solid var(--wrong-b);   color: #7F1D1D; }
+.feedback strong { display: block; margin-bottom: 4px; font-size: .95rem; }
+.feedback .expl { color: inherit; opacity: .85; }
+
+/* ─── NAV ───────────────────────────────────────────────────── */
+.nav-row { display: flex; justify-content: flex-end; margin-top: 1rem; }
+.btn-next {
+  background: var(--blue); color: white;
+  border: none; border-radius: 999px; padding: 10px 26px;
+  font-family: 'Nunito', sans-serif; font-size: .9rem; font-weight: 700;
+  cursor: pointer; display: none; align-items: center; gap: 8px;
+  transition: background .18s, transform .15s;
+  box-shadow: 0 4px 12px rgba(26,75,140,.3);
+}
+.btn-next:hover { background: var(--blue2); transform: translateY(-1px); }
+.btn-next.show { display: inline-flex; }
+.btn-next svg { transition: transform .18s; }
+.btn-next:hover svg { transform: translateX(3px); }
+
+/* ─── RESULTS ───────────────────────────────────────────────── */
+#results { display: none; }
+.results-card {
+  background: var(--paper); border: 1.5px solid var(--border);
+  border-radius: 22px; padding: 2.5rem 2rem 2rem;
+  text-align: center; box-shadow: var(--shadow);
+  animation: slideUp .4s ease;
+}
+.results-emoji { font-size: 4rem; margin-bottom: .5rem; }
+.results-title {
+  font-family: 'Baloo 2', cursive; font-size: 2rem; font-weight: 800;
+  color: var(--blue); margin-bottom: .5rem;
+}
+.results-score {
+  font-size: 3.5rem; font-weight: 800; color: var(--blue);
+  font-family: 'Baloo 2', cursive;
+}
+.results-score span { font-size: 1.4rem; color: var(--muted); font-weight: 600; }
+.results-msg { color: var(--muted); font-size: 1rem; margin: .75rem 0 1.5rem; }
+
+.results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 1.5rem 0; }
+.stat-box {
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 1rem;
+}
+.stat-box .stat-n { font-family: 'Baloo 2', cursive; font-size: 2rem; font-weight: 800; }
+.stat-box .stat-l { font-size: .8rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
+.stat-box.good .stat-n { color: var(--green); }
+.stat-box.bad  .stat-n { color: var(--red); }
+
+.cat-results { text-align: left; margin: 1.5rem 0; }
+.cat-results h3 { font-size: .9rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .8rem; }
+.cat-row-r { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.cat-row-r .cat-name { font-size: .88rem; font-weight: 600; min-width: 110px; }
+.cat-bar-bg { flex: 1; height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.cat-bar-fill { height: 100%; border-radius: 99px; transition: width .8s ease; }
+.cat-pct { font-size: .78rem; color: var(--muted); font-weight: 700; min-width: 36px; text-align: right; }
+
+.btn-restart {
+  background: var(--blue); color: white; border: none; border-radius: 999px;
+  padding: 13px 36px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 700;
+  cursor: pointer; transition: all .18s;
+  box-shadow: 0 4px 16px rgba(26,75,140,.3); margin-top: .5rem;
+}
+.btn-restart:hover { background: var(--blue2); transform: translateY(-2px); }
+
+/* ─── SECTION DIVIDERS ──────────────────────────────────────── */
+.section-div {
+  display: flex; align-items: center; gap: 10px;
+  margin: 1.8rem 0 1rem; font-family: 'Baloo 2', cursive;
+  font-size: 1rem; font-weight: 700; color: var(--blue);
+}
+.section-div::before, .section-div::after {
+  content: ""; flex: 1; height: 1.5px; background: var(--border);
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <h1>Quiz — Français A1</h1>
+    <p>Unité 1 · Premiers pas en français</p>
+    <div class="badge-row">
+      <span class="badge">🏫 Consignes</span>
+      <span class="badge">🌅 Salutations</span>
+      <span class="badge">👤 Se présenter</span>
+      <span class="badge">🔤 Alphabet</span>
+      <span class="badge">🔢 Chiffres</span>
+      <span class="badge">📅 Jours</span>
+      <span class="badge">🎨 Couleurs</span>
+    </div>
+  </header>
+
+  <!-- PROGRESS -->
+  <div class="progress-card" id="progressCard">
+    <div class="progress-meta">
+      Question <strong id="qNum">1</strong> sur <strong id="qTotal">?</strong>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <div class="score-pill" id="scorePill">Score : 0</div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz"></div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="results-card">
+      <div class="results-emoji" id="resEmoji">🎉</div>
+      <div class="results-title" id="resTitle">Résultats</div>
+      <div class="results-score" id="resScore">0 <span>/ 0</span></div>
+      <div class="results-msg" id="resMsg"></div>
+      <div class="results-grid">
+        <div class="stat-box good"><div class="stat-n" id="resOk">0</div><div class="stat-l">✅ Bonnes réponses</div></div>
+        <div class="stat-box bad"><div class="stat-n" id="resKo">0</div><div class="stat-l">❌ Mauvaises réponses</div></div>
+      </div>
+      <div class="cat-results">
+        <h3>Résultats par thème</h3>
+        <div id="catBreakdown"></div>
+      </div>
+      <button class="btn-restart" onclick="restart()">🔄 Recommencer</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+// QUESTION BANK
+// ════════════════════════════════════════════════════════════════
+const QUESTIONS = [
+
+// ── CONSIGNES ──────────────────────────────────────────────────
+{
+  cat:"🏫 Consignes", catKey:"consignes",
+  q: "Votre professeur dit : « Écoutez ! » Que faites-vous ?",
+  opts: ["Vous parlez", "Vous écoutez attentivement", "Vous écrivez", "Vous lisez le livre"],
+  ans: 1,
+  expl: "« Écoutez ! » est l'impératif du verbe écouter. Cela signifie que vous devez prêter attention à ce que dit le professeur, sans parler ni écrire."
+},
+{
+  cat:"🏫 Consignes", catKey:"consignes",
+  q: "Que signifie la consigne « Répétez ! » ?",
+  opts: ["Lisez à voix haute", "Écrivez la phrase", "Dites la même chose une nouvelle fois", "Cherchez dans le dictionnaire"],
+  ans: 2,
+  expl: "« Répétez ! » vient du verbe répéter. Il s'agit de dire exactement la même phrase ou le même mot que le professeur vient de prononcer."
+},
+{
+  cat:"🏫 Consignes", catKey:"consignes",
+  q: "Le professeur dit « Travaillez en groupe ! ». Vous devez…",
+  opts: ["Travailler seul(e)", "Fermer votre cahier", "Collaborer avec vos camarades", "Sortir de la classe"],
+  ans: 2,
+  expl: "« Travailler en groupe » signifie collaborer avec 2, 3 ou plusieurs camarades. C'est une activité coopérative très courante en classe de FLE."
+},
+{
+  cat:"🏫 Consignes", catKey:"consignes",
+  q: "Quelle consigne signifie « mettez votre téléphone de côté » ?",
+  opts: ["Parlez !", "Écrivez !", "Rangez vos téléphones !", "Posez vos questions !"],
+  ans: 2,
+  expl: "« Ranger » signifie mettre à sa place, dans un tiroir ou dans un sac. Cette consigne demande aux apprenants de ne pas utiliser leur téléphone pendant le cours."
+},
+
+// ── SALUTATIONS ────────────────────────────────────────────────
+{
+  cat:"🌅 Salutations", catKey:"salutations",
+  q: "Il est 8h du matin. Quelle salutation utiliser ?",
+  opts: ["Bonsoir !", "Bonne nuit !", "Bonjour !", "Salut (seulement entre amis)"],
+  ans: 2,
+  expl: "« Bonjour » s'utilise le matin et l'après-midi (de 6h à environ 18h). C'est la salutation formelle et universelle pour commencer une conversation en journée."
+},
+{
+  cat:"🌅 Salutations", catKey:"salutations",
+  q: "Vous rencontrez votre voisin à 19h30. Vous dites…",
+  opts: ["Bonjour !", "Bonne nuit !", "Bonsoir !", "Au revoir !"],
+  ans: 2,
+  expl: "« Bonsoir » s'utilise le soir, généralement à partir de 18h environ. C'est la salutation appropriée pour le début de soirée."
+},
+{
+  cat:"🌅 Salutations", catKey:"salutations",
+  q: "À quelle heure dit-on « Bonne nuit » ?",
+  opts: ["Le matin (6h–12h)", "L'après-midi (12h–18h)", "Le soir (18h–21h)", "Avant de dormir (21h–6h)"],
+  ans: 3,
+  expl: "« Bonne nuit » se dit quand on se couche ou quand on quitte quelqu'un tard le soir avant de dormir. Ce n'est pas une salutation de rencontre, mais une formule de départ nocturne."
+},
+{
+  cat:"🌅 Salutations", catKey:"salutations",
+  q: "Quelle formule utilise-t-on entre amis de façon informelle ?",
+  opts: ["Bonjour, Madame", "Bonsoir, Monsieur", "Salut !", "Au revoir, Professeur"],
+  ans: 2,
+  expl: "« Salut ! » est une salutation très informelle utilisée entre amis ou personnes du même âge. Elle ne s'emploie pas dans un contexte professionnel ou avec des inconnus."
+},
+{
+  cat:"🌅 Salutations", catKey:"salutations",
+  q: "Comment dit-on « goodbye » de façon formelle en français ?",
+  opts: ["Ciao !", "Salut !", "À demain !", "Au revoir !"],
+  ans: 3,
+  expl: "« Au revoir » est la formule de départ formelle et standard. « Ciao » et « Salut » sont informels. « À demain » est correct mais implique qu'on se reverra le lendemain."
+},
+
+// ── SE PRÉSENTER ───────────────────────────────────────────────
+{
+  cat:"👤 Se présenter", catKey:"presenter",
+  q: "Comment demander le nom de quelqu'un ?",
+  opts: ["Comment tu appelles ?", "Comment vous appelez-vous ?", "Quel est votre appel ?", "Vous avez un nom ?"],
+  ans: 1,
+  expl: "La formule correcte est « Comment vous appelez-vous ? » (formel) ou « Comment tu t'appelles ? » (informel). La structure utilise le verbe pronominal « s'appeler »."
+},
+{
+  cat:"👤 Se présenter", catKey:"presenter",
+  q: "Pour dire votre âge, vous dites…",
+  opts: ["J'ai 25 ans.", "Je suis 25 ans.", "Mon âge est 25.", "J'habite 25 ans."],
+  ans: 0,
+  expl: "En français, on utilise le verbe AVOIR pour l'âge : « J'ai 25 ans ». C'est différent de l'anglais (I AM 25). Ne dites jamais « Je suis 25 ans », c'est une erreur fréquente !"
+},
+{
+  cat:"👤 Se présenter", catKey:"presenter",
+  q: "Complétez : « Je _____ à Paris. »",
+  opts: ["suis", "m'appelle", "habite", "ai"],
+  ans: 2,
+  expl: "On utilise le verbe « habiter » pour indiquer où on vit : « J'habite à Paris. » On peut aussi dire « Je vis à Paris » mais « habiter » est plus courant au niveau A1."
+},
+{
+  cat:"👤 Se présenter", catKey:"presenter",
+  q: "Quelle phrase est correcte pour présenter sa nationalité ?",
+  opts: ["Je suis de française.", "J'ai française.", "Je suis française.", "J'habite française."],
+  ans: 2,
+  expl: "Pour la nationalité, on utilise « Je suis + adjectif de nationalité » : « Je suis française / espagnol / marocain… » L'adjectif s'accorde avec le genre."
+},
+{
+  cat:"👤 Se présenter", catKey:"presenter",
+  q: "Comment présenter sa profession ?",
+  opts: ["Je travaille étudiant.", "Je suis étudiant(e).", "J'habite étudiant.", "J'ai étudiant."],
+  ans: 1,
+  expl: "Pour la profession, on dit « Je suis + métier » sans article : « Je suis médecin, professeur, étudiant(e)… » C'est différent de l'anglais où l'on dit « I am A student »."
+},
+
+// ── ALPHABET ───────────────────────────────────────────────────
+{
+  cat:"🔤 Alphabet", catKey:"alphabet",
+  q: "Comment se prononce la lettre « H » en français ?",
+  opts: ["[hé]", "[ache]", "[ha]", "[shi]"],
+  ans: 1,
+  expl: "La lettre H se dit « ache » en français. En français, le H est souvent muet (l'hôtel, l'heure). C'est une des lettres les plus délicates pour les apprenants !"
+},
+{
+  cat:"🔤 Alphabet", catKey:"alphabet",
+  q: "Comment se prononce la lettre « W » en français ?",
+  opts: ["[vu]", "[double vé]", "[wi]", "[oua]"],
+  ans: 1,
+  expl: "Le W se dit « double vé » en français. Cette lettre est d'origine étrangère et peu commune dans les mots français natifs. On la trouve surtout dans les mots empruntés."
+},
+{
+  cat:"🔤 Alphabet", catKey:"alphabet",
+  q: "Combien de lettres y a-t-il dans l'alphabet français ?",
+  opts: ["24 lettres", "25 lettres", "26 lettres", "28 lettres"],
+  ans: 2,
+  expl: "L'alphabet français comporte 26 lettres, comme l'alphabet latin standard. Les accents (é, è, ê, à, ç…) ne sont pas des lettres supplémentaires, mais des signes qui modifient la prononciation."
+},
+{
+  cat:"🔤 Alphabet", catKey:"alphabet",
+  q: "Comment se prononce la lettre « G » en français ?",
+  opts: ["[ji]", "[gé]", "[gue]", "[ge]"],
+  ans: 1,
+  expl: "La lettre G se prononce « gé » (comme dans « bébé »). Attention : devant E et I, le G se prononce comme le « j » de « jardin ». Devant A, O, U, il est « dur » comme dans « gâteau »."
+},
+{
+  cat:"🔤 Alphabet", catKey:"alphabet",
+  q: "Quel accent transforme le son [e] en [ε] (comme dans « fête ») ?",
+  opts: ["L'accent aigu ( é )", "L'accent grave ( è )", "L'accent circonflexe ( ê )", "La cédille ( ç )"],
+  ans: 2,
+  expl: "L'accent circonflexe sur le E (ê) donne un son ouvert [ε] comme dans « fête », « tête », « bête ». L'accent aigu (é) donne un son fermé [e] comme dans « été »."
+},
+
+// ── CHIFFRES ───────────────────────────────────────────────────
+{
+  cat:"🔢 Chiffres", catKey:"chiffres",
+  q: "Comment écrit-on le chiffre 5 en français ?",
+  opts: ["quatre", "six", "cinq", "sept"],
+  ans: 2,
+  expl: "5 = cinq. La séquence de 1 à 10 : un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix. Attention à la prononciation de « cinq » [sɛ̃k]."
+},
+{
+  cat:"🔢 Chiffres", catKey:"chiffres",
+  q: "Quel nombre correspond à « dix-sept » ?",
+  opts: ["15", "16", "17", "18"],
+  ans: 2,
+  expl: "17 = dix-sept (10 + 7). En français, les nombres de 17 à 19 se forment en combinant « dix » avec sept, huit ou neuf. C'est différent de l'arabe ou de l'espagnol qui ont des mots distincts."
+},
+{
+  cat:"🔢 Chiffres", catKey:"chiffres",
+  q: "Comment dit-on le nombre 12 en français ?",
+  opts: ["onze", "treize", "dix-deux", "douze"],
+  ans: 3,
+  expl: "12 = douze. Les nombres de 11 à 16 ont des noms uniques : onze (11), douze (12), treize (13), quatorze (14), quinze (15), seize (16). Ce ne sont pas des combinaisons !"
+},
+{
+  cat:"🔢 Chiffres", catKey:"chiffres",
+  q: "Quelle est la somme de « huit + neuf » en français ?",
+  opts: ["seize", "dix-sept", "dix-huit", "vingt"],
+  ans: 1,
+  expl: "8 + 9 = 17 = dix-sept. En classe de FLE, faire de petites additions mentales en français est un excellent exercice pour mémoriser les chiffres !"
+},
+{
+  cat:"🔢 Chiffres", catKey:"chiffres",
+  q: "Comment prononce-t-on « 20 » en français ?",
+  opts: ["dix-dix", "deux-zéro", "vingt", "vingts"],
+  ans: 2,
+  expl: "20 = vingt. Le T final ne se prononce généralement pas dans « vingt » quand il est seul. Mais attention : dans 21 (vingt et un), 22 (vingt-deux)…, le mot « vingt » reste inchangé."
+},
+
+// ── JOURS ──────────────────────────────────────────────────────
+{
+  cat:"📅 Jours", catKey:"jours",
+  q: "Quel est le premier jour de la semaine en France ?",
+  opts: ["Dimanche", "Lundi", "Samedi", "Mardi"],
+  ans: 1,
+  expl: "En France (et dans la plupart des pays européens), la semaine commence officiellement le lundi. C'est différent des États-Unis ou des pays arabes où la semaine commence le dimanche."
+},
+{
+  cat:"📅 Jours", catKey:"jours",
+  q: "Quel jour vient après « jeudi » ?",
+  opts: ["Mercredi", "Samedi", "Vendredi", "Mardi"],
+  ans: 2,
+  expl: "L'ordre des jours est : lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche. Après jeudi vient vendredi. Un moyen mémo : « Lundi Mardi Mercredi Jeudi Vendredi Samedi Dimanche »."
+},
+{
+  cat:"📅 Jours", catKey:"jours",
+  q: "Quels jours forment le « week-end » en France ?",
+  opts: ["Vendredi et samedi", "Samedi et dimanche", "Jeudi et vendredi", "Dimanche et lundi"],
+  ans: 1,
+  expl: "En France, le week-end est samedi et dimanche. La plupart des écoles et bureaux sont fermés ces deux jours. En arabe, le week-end peut être vendredi et samedi selon le pays."
+},
+{
+  cat:"📅 Jours", catKey:"jours",
+  q: "« الخميس » en français se dit…",
+  opts: ["Mercredi", "Vendredi", "Jeudi", "Mardi"],
+  ans: 2,
+  expl: "الخميس = Jeudi (Thursday). Récapitulatif : الاثنين=Lundi, الثلاثاء=Mardi, الأربعاء=Mercredi, الخميس=Jeudi, الجمعة=Vendredi, السبت=Samedi, الأحد=Dimanche."
+},
+
+// ── COULEURS ───────────────────────────────────────────────────
+{
+  cat:"🎨 Couleurs", catKey:"couleurs",
+  q: "Quelle est la couleur du ciel par temps clair ?",
+  opts: ["vert", "rouge", "jaune", "bleu"],
+  ans: 3,
+  expl: "Le ciel par temps clair est bleu (أزرق). En français, les adjectifs de couleur s'accordent en genre et en nombre avec le nom : un ciel bleu, une voiture bleue, des fleurs bleues."
+},
+{
+  cat:"🎨 Couleurs", catKey:"couleurs",
+  q: "Comment dit-on « أحمر » en français ?",
+  opts: ["vert", "rouge", "orange", "rose"],
+  ans: 1,
+  expl: "أحمر = rouge. Les couleurs du drapeau français sont : bleu (أزرق), blanc (أبيض) et rouge (أحمر). Mémo : le sang est rouge, l'herbe est verte, le soleil est jaune."
+},
+{
+  cat:"🎨 Couleurs", catKey:"couleurs",
+  q: "Le mélange de rouge et de blanc donne…",
+  opts: ["orange", "violet", "rose", "beige"],
+  ans: 2,
+  expl: "Mélanger du rouge et du blanc donne du rose (وردي). En peinture : rouge + jaune = orange, bleu + jaune = vert, rouge + bleu = violet. Ces notions sont utiles pour décrire des objets !"
+},
+{
+  cat:"🎨 Couleurs", catKey:"couleurs",
+  q: "Complétez : « La nuit est _____ . »",
+  opts: ["blanche", "noire", "verte", "bleue"],
+  ans: 1,
+  expl: "La nuit est noire (أسود). En français, l'adjectif de couleur s'accorde avec le nom. « Nuit » est féminin, donc on dit « noire » et non « noir ». Exemple : un chat noir / une nuit noire."
+},
+{
+  cat:"🎨 Couleurs", catKey:"couleurs",
+  q: "Quelle couleur associe-t-on au printemps et à la nature ?",
+  opts: ["gris", "marron", "vert", "beige"],
+  ans: 2,
+  expl: "Le vert (أخضر) est la couleur de la nature, des feuilles et du printemps. En français, on dit « avoir la main verte » pour quelqu'un qui est doué pour faire pousser les plantes."
+},
+
+];
+
+// ════════════════════════════════════════════════════════════════
+// QUIZ ENGINE
+// ════════════════════════════════════════════════════════════════
+const CAT_COLORS = {
+  consignes:  { bg:"#FFF3E0", border:"#E67E22", text:"#A04000" },
+  salutations:{ bg:"#E3F2FD", border:"#2196F3", text:"#0D47A1" },
+  presenter:  { bg:"#E8F5E9", border:"#4CAF50", text:"#1B5E20" },
+  alphabet:   { bg:"#F3E5F5", border:"#9C27B0", text:"#4A148C" },
+  chiffres:   { bg:"#FFEBEE", border:"#F44336", text:"#B71C1C" },
+  jours:      { bg:"#E3F2FD", border:"#1565C0", text:"#0D47A1" },
+  couleurs:   { bg:"#FCE4EC", border:"#E91E63", text:"#880E4F" },
+};
+
+let questions = [];
+let current = 0;
+let score = 0;
+let answered = 0;
+let catStats = {};
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function init() {
+  questions = shuffle(QUESTIONS);
+  current = 0; score = 0; answered = 0;
+  catStats = {};
+  questions.forEach(q => {
+    if (!catStats[q.catKey]) catStats[q.catKey] = { label: q.cat, total: 0, correct: 0 };
+    catStats[q.catKey].total++;
+  });
+  document.getElementById("qTotal").textContent = questions.length;
+  document.getElementById("results").style.display = "none";
+  document.getElementById("progressCard").style.display = "flex";
+  document.getElementById("quiz").style.display = "block";
+  updateProgress();
+  renderQuestion();
+}
+
+function updateProgress() {
+  const pct = questions.length ? Math.round((answered / questions.length) * 100) : 0;
+  document.getElementById("progFill").style.width = pct + "%";
+  document.getElementById("qNum").textContent = Math.min(current + 1, questions.length);
+  document.getElementById("scorePill").textContent = "Score : " + score + " / " + answered;
+}
+
+function renderQuestion() {
+  if (current >= questions.length) { showResults(); return; }
+  const q = questions[current];
+  const cc = CAT_COLORS[q.catKey] || CAT_COLORS.consignes;
+  const letters = ["A", "B", "C", "D"];
+  const isGrid2 = q.opts.every(o => o.length <= 14);
+
+  const html = `
+    <div class="q-card" id="qCard${current}">
+      <div class="cat-row">
+        <span class="cat-tag" style="background:${cc.bg};border:1.5px solid ${cc.border};color:${cc.text}">${q.cat}</span>
+      </div>
+      <div class="q-number">Question ${current + 1} sur ${questions.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options${isGrid2 ? ' grid2' : ''}" id="opts${current}">
+        ${q.opts.map((opt, i) => `
+          <button class="opt" onclick="answer(${current}, ${i})" id="opt_${current}_${i}">
+            <span class="opt-letter">${letters[i]}</span>
+            ${opt}
+          </button>
+        `).join("")}
+      </div>
+      <div class="feedback" id="fb${current}"></div>
+      <div class="nav-row">
+        <button class="btn-next" id="next${current}" onclick="nextQ()">
+          ${current < questions.length - 1 ? "Question suivante" : "Voir les résultats"}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l8 7-8 7V5z"/></svg>
+        </button>
+      </div>
+    </div>`;
+  document.getElementById("quiz").innerHTML = html;
+}
+
+function answer(qIdx, chosen) {
+  const q = questions[qIdx];
+  if (document.getElementById("opt_" + qIdx + "_0").disabled) return;
+
+  const isCorrect = chosen === q.ans;
+  if (isCorrect) { score++; catStats[q.catKey].correct++; }
+  answered++;
+  updateProgress();
+
+  // disable all options
+  q.opts.forEach((_, i) => {
+    const btn = document.getElementById("opt_" + qIdx + "_" + i);
+    btn.disabled = true;
+    if (i === q.ans) btn.classList.add(isCorrect && i === chosen ? "correct" : "reveal");
+    else if (i === chosen && !isCorrect) btn.classList.add("wrong");
+  });
+  if (isCorrect) {
+    document.getElementById("opt_" + qIdx + "_" + chosen).classList.remove("reveal");
+    document.getElementById("opt_" + qIdx + "_" + chosen).classList.add("correct");
+  }
+
+  // feedback
+  const fb = document.getElementById("fb" + qIdx);
+  fb.className = "feedback show " + (isCorrect ? "ok" : "ko");
+  if (isCorrect) {
+    fb.innerHTML = `<strong>✅ Bravo ! Bonne réponse !</strong><span class="expl">${q.expl}</span>`;
+  } else {
+    const correctText = q.opts[q.ans];
+    fb.innerHTML = `<strong>❌ Mauvaise réponse. La bonne réponse est : « ${correctText} »</strong><span class="expl">${q.expl}</span>`;
+  }
+
+  document.getElementById("next" + qIdx).classList.add("show");
+}
+
+function nextQ() {
+  current++;
+  updateProgress();
+  renderQuestion();
+  window.scrollTo({ top: document.getElementById("quiz").offsetTop - 80, behavior: "smooth" });
+}
+
+function showResults() {
+  document.getElementById("quiz").style.display = "none";
+  document.getElementById("progressCard").style.display = "none";
+  const total = questions.length;
+  const pct = Math.round((score / total) * 100);
+  let emoji = "😕", title = "Continuez vos efforts !", msg = "Revoyez les leçons et réessayez !";
+  if (pct >= 90) { emoji = "🏆"; title = "Excellent !"; msg = "Vous maîtrisez très bien l'Unité 1 !"; }
+  else if (pct >= 70) { emoji = "🎉"; title = "Très bien !"; msg = "Quelques points à revoir, vous êtes sur la bonne voie !"; }
+  else if (pct >= 50) { emoji = "👍"; title = "Pas mal !"; msg = "La moitié des réponses sont correctes. Continuez à pratiquer !"; }
+
+  document.getElementById("resEmoji").textContent = emoji;
+  document.getElementById("resTitle").textContent = title;
+  document.getElementById("resScore").innerHTML = `${score} <span>/ ${total} (${pct}%)</span>`;
+  document.getElementById("resMsg").textContent = msg;
+  document.getElementById("resOk").textContent = score;
+  document.getElementById("resKo").textContent = total - score;
+
+  // Category breakdown
+  let breakdown = "";
+  Object.values(catStats).forEach(c => {
+    const p = Math.round((c.correct / c.total) * 100);
+    const col = p >= 70 ? "var(--green)" : p >= 40 ? "var(--yellow)" : "var(--red)";
+    breakdown += `
+      <div class="cat-row-r">
+        <span class="cat-name">${c.label}</span>
+        <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:${p}%;background:${col}"></div></div>
+        <span class="cat-pct">${c.correct}/${c.total}</span>
+      </div>`;
+  });
+  document.getElementById("catBreakdown").innerHTML = breakdown;
+  document.getElementById("results").style.display = "block";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function restart() {
+  document.getElementById("results").style.display = "none";
+  init();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// start
+init();
+</script>
+</body>
+</html>
