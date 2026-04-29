@@ -132,7 +132,16 @@ body::before {
   font-family: 'Baloo 2', cursive;
   font-size: clamp(1rem, 3vw, 1.2rem);
   font-weight: 700; color: var(--ink); line-height: 1.4;
-  margin-bottom: 1.2rem;
+  margin-bottom: .55rem;
+}
+.q-text-ar {
+  font-size: clamp(.88rem, 2.5vw, .98rem);
+  color: var(--purple); font-weight: 600; line-height: 1.5;
+  direction: rtl; text-align: right;
+  background: rgba(107,63,160,.07);
+  border-right: 3px solid var(--purple);
+  border-radius: 6px; padding: 6px 10px 6px 8px;
+  margin-bottom: 1.1rem; font-family: 'Nunito', sans-serif;
 }
 .q-hint { font-size: .82rem; color: var(--muted); font-style: italic; margin-top: -.6rem; margin-bottom: 1rem; }
 
@@ -315,6 +324,7 @@ const QUESTIONS = [
 {
   cat:"🏫 Consignes", catKey:"consignes",
   q: "Votre professeur dit : « Écoutez ! » Que faites-vous ?",
+  ar: "يقول أستاذك : « استمعوا ! » ماذا تفعل؟",
   opts: ["Vous parlez", "Vous écoutez attentivement", "Vous écrivez", "Vous lisez le livre"],
   ans: 1,
   expl: "« Écoutez ! » est l'impératif du verbe écouter. Cela signifie que vous devez prêter attention à ce que dit le professeur, sans parler ni écrire."
@@ -322,6 +332,7 @@ const QUESTIONS = [
 {
   cat:"🏫 Consignes", catKey:"consignes",
   q: "Que signifie la consigne « Répétez ! » ?",
+  ar: "ماذا تعني التعليمة « كرّروا ! »؟",
   opts: ["Lisez à voix haute", "Écrivez la phrase", "Dites la même chose une nouvelle fois", "Cherchez dans le dictionnaire"],
   ans: 2,
   expl: "« Répétez ! » vient du verbe répéter. Il s'agit de dire exactement la même phrase ou le même mot que le professeur vient de prononcer."
@@ -329,6 +340,7 @@ const QUESTIONS = [
 {
   cat:"🏫 Consignes", catKey:"consignes",
   q: "Le professeur dit « Travaillez en groupe ! ». Vous devez…",
+  ar: "يقول الأستاذ « اعملوا في مجموعات ! ». يجب عليك…",
   opts: ["Travailler seul(e)", "Fermer votre cahier", "Collaborer avec vos camarades", "Sortir de la classe"],
   ans: 2,
   expl: "« Travailler en groupe » signifie collaborer avec 2, 3 ou plusieurs camarades. C'est une activité coopérative très courante en classe de FLE."
@@ -336,6 +348,7 @@ const QUESTIONS = [
 {
   cat:"🏫 Consignes", catKey:"consignes",
   q: "Quelle consigne signifie « mettez votre téléphone de côté » ?",
+  ar: "ما التعليمة التي تعني « ضعوا هواتفكم جانباً »؟",
   opts: ["Parlez !", "Écrivez !", "Rangez vos téléphones !", "Posez vos questions !"],
   ans: 2,
   expl: "« Ranger » signifie mettre à sa place, dans un tiroir ou dans un sac. Cette consigne demande aux apprenants de ne pas utiliser leur téléphone pendant le cours."
@@ -345,6 +358,7 @@ const QUESTIONS = [
 {
   cat:"🌅 Salutations", catKey:"salutations",
   q: "Il est 8h du matin. Quelle salutation utiliser ?",
+  ar: "الساعة 8 صباحاً. ما التحية المناسبة؟",
   opts: ["Bonsoir !", "Bonne nuit !", "Bonjour !", "Salut (seulement entre amis)"],
   ans: 2,
   expl: "« Bonjour » s'utilise le matin et l'après-midi (de 6h à environ 18h). C'est la salutation formelle et universelle pour commencer une conversation en journée."
@@ -352,6 +366,7 @@ const QUESTIONS = [
 {
   cat:"🌅 Salutations", catKey:"salutations",
   q: "Vous rencontrez votre voisin à 19h30. Vous dites…",
+  ar: "تلتقي بجارك الساعة 7:30 مساءً. تقول…",
   opts: ["Bonjour !", "Bonne nuit !", "Bonsoir !", "Au revoir !"],
   ans: 2,
   expl: "« Bonsoir » s'utilise le soir, généralement à partir de 18h environ. C'est la salutation appropriée pour le début de soirée."
@@ -359,6 +374,7 @@ const QUESTIONS = [
 {
   cat:"🌅 Salutations", catKey:"salutations",
   q: "À quelle heure dit-on « Bonne nuit » ?",
+  ar: "في أي وقت يُقال « Bonne nuit » (تصبح على خير)؟",
   opts: ["Le matin (6h–12h)", "L'après-midi (12h–18h)", "Le soir (18h–21h)", "Avant de dormir (21h–6h)"],
   ans: 3,
   expl: "« Bonne nuit » se dit quand on se couche ou quand on quitte quelqu'un tard le soir avant de dormir. Ce n'est pas une salutation de rencontre, mais une formule de départ nocturne."
@@ -366,6 +382,7 @@ const QUESTIONS = [
 {
   cat:"🌅 Salutations", catKey:"salutations",
   q: "Quelle formule utilise-t-on entre amis de façon informelle ?",
+  ar: "ما العبارة التي تُستخدم بشكل غير رسمي بين الأصدقاء؟",
   opts: ["Bonjour, Madame", "Bonsoir, Monsieur", "Salut !", "Au revoir, Professeur"],
   ans: 2,
   expl: "« Salut ! » est une salutation très informelle utilisée entre amis ou personnes du même âge. Elle ne s'emploie pas dans un contexte professionnel ou avec des inconnus."
@@ -373,6 +390,7 @@ const QUESTIONS = [
 {
   cat:"🌅 Salutations", catKey:"salutations",
   q: "Comment dit-on « goodbye » de façon formelle en français ?",
+  ar: "كيف تقول «وداعاً» بشكل رسمي بالفرنسية؟",
   opts: ["Ciao !", "Salut !", "À demain !", "Au revoir !"],
   ans: 3,
   expl: "« Au revoir » est la formule de départ formelle et standard. « Ciao » et « Salut » sont informels. « À demain » est correct mais implique qu'on se reverra le lendemain."
@@ -382,6 +400,7 @@ const QUESTIONS = [
 {
   cat:"👤 Se présenter", catKey:"presenter",
   q: "Comment demander le nom de quelqu'un ?",
+  ar: "كيف تسأل عن اسم شخص ما؟",
   opts: ["Comment tu appelles ?", "Comment vous appelez-vous ?", "Quel est votre appel ?", "Vous avez un nom ?"],
   ans: 1,
   expl: "La formule correcte est « Comment vous appelez-vous ? » (formel) ou « Comment tu t'appelles ? » (informel). La structure utilise le verbe pronominal « s'appeler »."
@@ -389,6 +408,7 @@ const QUESTIONS = [
 {
   cat:"👤 Se présenter", catKey:"presenter",
   q: "Pour dire votre âge, vous dites…",
+  ar: "للتعبير عن عمرك، تقول…",
   opts: ["J'ai 25 ans.", "Je suis 25 ans.", "Mon âge est 25.", "J'habite 25 ans."],
   ans: 0,
   expl: "En français, on utilise le verbe AVOIR pour l'âge : « J'ai 25 ans ». C'est différent de l'anglais (I AM 25). Ne dites jamais « Je suis 25 ans », c'est une erreur fréquente !"
@@ -396,6 +416,7 @@ const QUESTIONS = [
 {
   cat:"👤 Se présenter", catKey:"presenter",
   q: "Complétez : « Je _____ à Paris. »",
+  ar: "أكمل الجملة : « Je _____ à Paris. » (أنا _____ في باريس.)",
   opts: ["suis", "m'appelle", "habite", "ai"],
   ans: 2,
   expl: "On utilise le verbe « habiter » pour indiquer où on vit : « J'habite à Paris. » On peut aussi dire « Je vis à Paris » mais « habiter » est plus courant au niveau A1."
@@ -403,6 +424,7 @@ const QUESTIONS = [
 {
   cat:"👤 Se présenter", catKey:"presenter",
   q: "Quelle phrase est correcte pour présenter sa nationalité ?",
+  ar: "ما الجملة الصحيحة للتعبير عن الجنسية؟",
   opts: ["Je suis de française.", "J'ai française.", "Je suis française.", "J'habite française."],
   ans: 2,
   expl: "Pour la nationalité, on utilise « Je suis + adjectif de nationalité » : « Je suis française / espagnol / marocain… » L'adjectif s'accorde avec le genre."
@@ -410,6 +432,7 @@ const QUESTIONS = [
 {
   cat:"👤 Se présenter", catKey:"presenter",
   q: "Comment présenter sa profession ?",
+  ar: "كيف تقدّم مهنتك؟",
   opts: ["Je travaille étudiant.", "Je suis étudiant(e).", "J'habite étudiant.", "J'ai étudiant."],
   ans: 1,
   expl: "Pour la profession, on dit « Je suis + métier » sans article : « Je suis médecin, professeur, étudiant(e)… » C'est différent de l'anglais où l'on dit « I am A student »."
@@ -419,6 +442,7 @@ const QUESTIONS = [
 {
   cat:"🔤 Alphabet", catKey:"alphabet",
   q: "Comment se prononce la lettre « H » en français ?",
+  ar: "كيف تُنطق حرف « H » في الفرنسية؟",
   opts: ["[hé]", "[ache]", "[ha]", "[shi]"],
   ans: 1,
   expl: "La lettre H se dit « ache » en français. En français, le H est souvent muet (l'hôtel, l'heure). C'est une des lettres les plus délicates pour les apprenants !"
@@ -426,6 +450,7 @@ const QUESTIONS = [
 {
   cat:"🔤 Alphabet", catKey:"alphabet",
   q: "Comment se prononce la lettre « W » en français ?",
+  ar: "كيف تُنطق حرف « W » في الفرنسية؟",
   opts: ["[vu]", "[double vé]", "[wi]", "[oua]"],
   ans: 1,
   expl: "Le W se dit « double vé » en français. Cette lettre est d'origine étrangère et peu commune dans les mots français natifs. On la trouve surtout dans les mots empruntés."
@@ -433,6 +458,7 @@ const QUESTIONS = [
 {
   cat:"🔤 Alphabet", catKey:"alphabet",
   q: "Combien de lettres y a-t-il dans l'alphabet français ?",
+  ar: "كم عدد حروف الأبجدية الفرنسية؟",
   opts: ["24 lettres", "25 lettres", "26 lettres", "28 lettres"],
   ans: 2,
   expl: "L'alphabet français comporte 26 lettres, comme l'alphabet latin standard. Les accents (é, è, ê, à, ç…) ne sont pas des lettres supplémentaires, mais des signes qui modifient la prononciation."
@@ -440,6 +466,7 @@ const QUESTIONS = [
 {
   cat:"🔤 Alphabet", catKey:"alphabet",
   q: "Comment se prononce la lettre « G » en français ?",
+  ar: "كيف تُنطق حرف « G » في الفرنسية؟",
   opts: ["[ji]", "[gé]", "[gue]", "[ge]"],
   ans: 1,
   expl: "La lettre G se prononce « gé » (comme dans « bébé »). Attention : devant E et I, le G se prononce comme le « j » de « jardin ». Devant A, O, U, il est « dur » comme dans « gâteau »."
@@ -447,6 +474,7 @@ const QUESTIONS = [
 {
   cat:"🔤 Alphabet", catKey:"alphabet",
   q: "Quel accent transforme le son [e] en [ε] (comme dans « fête ») ?",
+  ar: "أي علامة تشكيل تحوّل الصوت [e] إلى [ε] (كما في كلمة « fête »)؟",
   opts: ["L'accent aigu ( é )", "L'accent grave ( è )", "L'accent circonflexe ( ê )", "La cédille ( ç )"],
   ans: 2,
   expl: "L'accent circonflexe sur le E (ê) donne un son ouvert [ε] comme dans « fête », « tête », « bête ». L'accent aigu (é) donne un son fermé [e] comme dans « été »."
@@ -456,6 +484,7 @@ const QUESTIONS = [
 {
   cat:"🔢 Chiffres", catKey:"chiffres",
   q: "Comment écrit-on le chiffre 5 en français ?",
+  ar: "كيف يُكتب الرقم 5 بالفرنسية؟",
   opts: ["quatre", "six", "cinq", "sept"],
   ans: 2,
   expl: "5 = cinq. La séquence de 1 à 10 : un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix. Attention à la prononciation de « cinq » [sɛ̃k]."
@@ -463,6 +492,7 @@ const QUESTIONS = [
 {
   cat:"🔢 Chiffres", catKey:"chiffres",
   q: "Quel nombre correspond à « dix-sept » ?",
+  ar: "ما الرقم الذي يقابل « dix-sept »؟",
   opts: ["15", "16", "17", "18"],
   ans: 2,
   expl: "17 = dix-sept (10 + 7). En français, les nombres de 17 à 19 se forment en combinant « dix » avec sept, huit ou neuf. C'est différent de l'arabe ou de l'espagnol qui ont des mots distincts."
@@ -470,6 +500,7 @@ const QUESTIONS = [
 {
   cat:"🔢 Chiffres", catKey:"chiffres",
   q: "Comment dit-on le nombre 12 en français ?",
+  ar: "كيف يُقال الرقم 12 بالفرنسية؟",
   opts: ["onze", "treize", "dix-deux", "douze"],
   ans: 3,
   expl: "12 = douze. Les nombres de 11 à 16 ont des noms uniques : onze (11), douze (12), treize (13), quatorze (14), quinze (15), seize (16). Ce ne sont pas des combinaisons !"
@@ -477,6 +508,7 @@ const QUESTIONS = [
 {
   cat:"🔢 Chiffres", catKey:"chiffres",
   q: "Quelle est la somme de « huit + neuf » en français ?",
+  ar: "ما نتيجة « huit + neuf » (8 + 9) بالفرنسية؟",
   opts: ["seize", "dix-sept", "dix-huit", "vingt"],
   ans: 1,
   expl: "8 + 9 = 17 = dix-sept. En classe de FLE, faire de petites additions mentales en français est un excellent exercice pour mémoriser les chiffres !"
@@ -484,6 +516,7 @@ const QUESTIONS = [
 {
   cat:"🔢 Chiffres", catKey:"chiffres",
   q: "Comment prononce-t-on « 20 » en français ?",
+  ar: "كيف تنطق الرقم « 20 » بالفرنسية؟",
   opts: ["dix-dix", "deux-zéro", "vingt", "vingts"],
   ans: 2,
   expl: "20 = vingt. Le T final ne se prononce généralement pas dans « vingt » quand il est seul. Mais attention : dans 21 (vingt et un), 22 (vingt-deux)…, le mot « vingt » reste inchangé."
@@ -493,6 +526,7 @@ const QUESTIONS = [
 {
   cat:"📅 Jours", catKey:"jours",
   q: "Quel est le premier jour de la semaine en France ?",
+  ar: "ما هو أول يوم في الأسبوع في فرنسا؟",
   opts: ["Dimanche", "Lundi", "Samedi", "Mardi"],
   ans: 1,
   expl: "En France (et dans la plupart des pays européens), la semaine commence officiellement le lundi. C'est différent des États-Unis ou des pays arabes où la semaine commence le dimanche."
@@ -500,6 +534,7 @@ const QUESTIONS = [
 {
   cat:"📅 Jours", catKey:"jours",
   q: "Quel jour vient après « jeudi » ?",
+  ar: "ما اليوم الذي يلي « jeudi » (الخميس)؟",
   opts: ["Mercredi", "Samedi", "Vendredi", "Mardi"],
   ans: 2,
   expl: "L'ordre des jours est : lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche. Après jeudi vient vendredi. Un moyen mémo : « Lundi Mardi Mercredi Jeudi Vendredi Samedi Dimanche »."
@@ -507,6 +542,7 @@ const QUESTIONS = [
 {
   cat:"📅 Jours", catKey:"jours",
   q: "Quels jours forment le « week-end » en France ?",
+  ar: "ما الأيام التي تشكّل « عطلة نهاية الأسبوع » في فرنسا؟",
   opts: ["Vendredi et samedi", "Samedi et dimanche", "Jeudi et vendredi", "Dimanche et lundi"],
   ans: 1,
   expl: "En France, le week-end est samedi et dimanche. La plupart des écoles et bureaux sont fermés ces deux jours. En arabe, le week-end peut être vendredi et samedi selon le pays."
@@ -514,6 +550,7 @@ const QUESTIONS = [
 {
   cat:"📅 Jours", catKey:"jours",
   q: "« الخميس » en français se dit…",
+  ar: "كيف يُترجم « الخميس » إلى الفرنسية؟",
   opts: ["Mercredi", "Vendredi", "Jeudi", "Mardi"],
   ans: 2,
   expl: "الخميس = Jeudi (Thursday). Récapitulatif : الاثنين=Lundi, الثلاثاء=Mardi, الأربعاء=Mercredi, الخميس=Jeudi, الجمعة=Vendredi, السبت=Samedi, الأحد=Dimanche."
@@ -523,6 +560,7 @@ const QUESTIONS = [
 {
   cat:"🎨 Couleurs", catKey:"couleurs",
   q: "Quelle est la couleur du ciel par temps clair ?",
+  ar: "ما لون السماء في الطقس الصافي؟",
   opts: ["vert", "rouge", "jaune", "bleu"],
   ans: 3,
   expl: "Le ciel par temps clair est bleu (أزرق). En français, les adjectifs de couleur s'accordent en genre et en nombre avec le nom : un ciel bleu, une voiture bleue, des fleurs bleues."
@@ -530,6 +568,7 @@ const QUESTIONS = [
 {
   cat:"🎨 Couleurs", catKey:"couleurs",
   q: "Comment dit-on « أحمر » en français ?",
+  ar: "كيف تقول « أحمر » بالفرنسية؟",
   opts: ["vert", "rouge", "orange", "rose"],
   ans: 1,
   expl: "أحمر = rouge. Les couleurs du drapeau français sont : bleu (أزرق), blanc (أبيض) et rouge (أحمر). Mémo : le sang est rouge, l'herbe est verte, le soleil est jaune."
@@ -537,6 +576,7 @@ const QUESTIONS = [
 {
   cat:"🎨 Couleurs", catKey:"couleurs",
   q: "Le mélange de rouge et de blanc donne…",
+  ar: "خلط الأحمر والأبيض معاً ينتج…",
   opts: ["orange", "violet", "rose", "beige"],
   ans: 2,
   expl: "Mélanger du rouge et du blanc donne du rose (وردي). En peinture : rouge + jaune = orange, bleu + jaune = vert, rouge + bleu = violet. Ces notions sont utiles pour décrire des objets !"
@@ -544,6 +584,7 @@ const QUESTIONS = [
 {
   cat:"🎨 Couleurs", catKey:"couleurs",
   q: "Complétez : « La nuit est _____ . »",
+  ar: "أكمل الجملة : « الليل _____ . » (La nuit est _____)",
   opts: ["blanche", "noire", "verte", "bleue"],
   ans: 1,
   expl: "La nuit est noire (أسود). En français, l'adjectif de couleur s'accorde avec le nom. « Nuit » est féminin, donc on dit « noire » et non « noir ». Exemple : un chat noir / une nuit noire."
@@ -551,6 +592,7 @@ const QUESTIONS = [
 {
   cat:"🎨 Couleurs", catKey:"couleurs",
   q: "Quelle couleur associe-t-on au printemps et à la nature ?",
+  ar: "ما اللون المرتبط بالربيع والطبيعة؟",
   opts: ["gris", "marron", "vert", "beige"],
   ans: 2,
   expl: "Le vert (أخضر) est la couleur de la nature, des feuilles et du printemps. En français, on dit « avoir la main verte » pour quelqu'un qui est doué pour faire pousser les plantes."
@@ -623,6 +665,7 @@ function renderQuestion() {
       </div>
       <div class="q-number">Question ${current + 1} sur ${questions.length}</div>
       <div class="q-text">${q.q}</div>
+      ${q.ar ? `<div class="q-text-ar">${q.ar}</div>` : ''}
       <div class="options${isGrid2 ? ' grid2' : ''}" id="opts${current}">
         ${q.opts.map((opt, i) => `
           <button class="opt" onclick="answer(${current}, ${i})" id="opt_${current}_${i}">
